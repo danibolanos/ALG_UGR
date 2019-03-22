@@ -1,0 +1,659 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\author{Daniel Bolaños Martínez, 
+\\\\
+José María Borrás Serrano,
+\\\\
+Santiago de Diego de Diego, 
+\\\\
+Fernando de la Hoz Moreno}
+\date{}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Algoritmos Greedy: Problema QAP
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Análisis del problema
+\end_layout
+
+\begin_layout Standard
+El problema, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+P
+\end_layout
+
+\end_inset
+
+ está basado en el Problema de Asignación Cuadrática, consiste en asignar
+ a cada oficinista de un grupo de oficinistas, una habitación de un grupo
+ de habitaciones de forma que se minimice el coste de asignar a cada habitación
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+i
+\end_layout
+
+\end_inset
+
+ el oficinista 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+p(i)
+\end_layout
+
+\end_inset
+
+.
+ El Problema puede generalizarse a asignar N instalaciones a una cantidad
+ N de locaciones en donde se considera un costo asociado a cada una de las
+ asignaciones deseando que el coste en función del flujo sea mínimo.
+ Matemáticamente, el problema puede definirse como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p^{*}=min_{p}{H(p)}=min_{p}{\displaystyle \sum_{i=0}^{N-1}{\displaystyle \sum_{i=0}^{N-1}}f_{p(i)p(j)}d_{ij}}
+\]
+
+\end_inset
+
+donde 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+f
+\end_layout
+
+\end_inset
+
+ es la matriz de flujos de intersección desde el oficinista 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+p(i)
+\end_layout
+
+\end_inset
+
+ al 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+p(j)
+\end_layout
+
+\end_inset
+
+ y 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+d
+\end_layout
+
+\end_inset
+
+ es la matriz de distancias desde la habitación 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+i
+\end_layout
+
+\end_inset
+
+ a la 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+j
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Por ejemplo, la matriz de distancias 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+d
+\end_layout
+
+\end_inset
+
+ puede ser:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{|ccccc|}
+\hline 0 & 7 & 14 & 20 & 3\\
+4 & 0 & 10 & 17 & 49\\
+51 & 1 & 0 & 43 & 71\\
+7 & 3 & 10 & 0 & 20\\
+90 & 101 & 47 & 3 & 0
+\\\hline \end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+y la matriz de flujos:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{|ccccc|}
+\hline 0 & 4 & 7 & 4 & 1\\
+0 & 0 & 10 & 3 & 21\\
+0 & 0 & 0 & 47 & 3\\
+41 & 21 & 7 & 0 & 9\\
+21 & 43 & 32 & 0 & 27
+\\\hline \end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Además definimos un vector de distancias entre habitaciones 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$d_p(i)=
+\backslash
+displaystyle
+\backslash
+sum_{j=0}^{N-1}d_{ij}$
+\end_layout
+
+\end_inset
+
+.
+ Cada componente del vector contiene la suma de las distancias desde la
+ localización 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+i
+\end_layout
+
+\end_inset
+
+ al resto.
+\end_layout
+
+\begin_layout Standard
+En nuestro caso dicho vector vendria dado como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d_{p}=(44,80,166,40,241)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si realizamos lo mismo con la matriz de flujos 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+f
+\end_layout
+
+\end_inset
+
+, tendremos el vector :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{p}={\displaystyle \sum_{b=0}^{N-1}f_{ab}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+que en nuestro ejemplo particular es:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{p}=(16,24,50,78,123)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Diseño de la solución relacionándolas con la metodología Greedy
+\end_layout
+
+\begin_layout Standard
+En un algoritmo voraz los pasos que tenemos que seguir son: 
+\end_layout
+
+\begin_layout Itemize
+Diseñar una lista de candidatos 
+\end_layout
+
+\begin_layout Itemize
+Identificar una lista de candidatos ya utilizados 
+\end_layout
+
+\begin_layout Itemize
+Diseñar una función solución 
+\end_layout
+
+\begin_layout Itemize
+Diseñar un criterio de factibilidad
+\end_layout
+
+\begin_layout Itemize
+Diseñar una función de selección del candidato más prometedor para formar
+ parte de la solución 
+\end_layout
+
+\begin_layout Itemize
+Encontrar una función objetivo de minimización/maximización.
+ 
+\end_layout
+
+\begin_layout Standard
+Nosotros hemos implementado los pasos de la siguiente forma:
+\end_layout
+
+\begin_layout Itemize
+El 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{conjunto C de candidatos}
+\end_layout
+
+\end_inset
+
+, en este caso, las distancias entre las oficinas y el flujo de trabajo
+ de los oficinistas.
+ Se almacenarán cada uno en una matriz de 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+NxN
+\end_layout
+
+\end_inset
+
+ y serán las entradas del problema.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Función solución.}
+\end_layout
+
+\end_inset
+
+ Comprueba, en cada paso, si el subconjunto actual de candidatos elegidos
+ forma una solución (no importa si es óptima o no lo es).
+ En nuestro caso una vez el conjunto de candidatos esté vacío habremos llegado
+ a la solución.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Función selección.}
+\end_layout
+
+\end_inset
+
+ Informa cuál es el elemento más prometedor para completar la solución.
+ Éste no puede haber sido escogido con anterioridad.
+ Cada elemento es considerado una sola vez.
+ Luego, puede ser rechazado o aceptado.
+ Para nuestro algoritmo escogemos el oficinista con menor flujo de trabajo
+ y le asignamos la habitación con mayor distancia.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Función de factibilidad.}
+\end_layout
+
+\end_inset
+
+ Informa si a partir de un conjunto se puede llegar a una solución.
+ En este caso la función de selección ya implementa la de factibilidad porque
+ escogemos un elemento que es factible.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Función objetivo.}
+\end_layout
+
+\end_inset
+
+ Es aquella que queremos maximizar o minimizar, el núcleo del problema.
+ En nuestro problema queremos asignar a oficinistas con la máxima carga
+ de trabajo a habitaciones con la mínima distancia.
+ 
+\end_layout
+
+\begin_layout Section
+Pseudocódigo que soluciona el problema
+\end_layout
+
+\begin_layout Section
+Explicación del funcionamiento del algoritmo sobre el ejemplo
+\end_layout
+
+\begin_layout Section
+Enunciado de un problema o caso real donde se pueda aplicar el algoritmo
+\end_layout
+
+\begin_layout Standard
+Diseño de centros comerciales donde se quiere que el público recorra la
+ menor cantidad de distancia para llegar a tiendas de intereses comunes
+ para un sector del público.
+ 
+\end_layout
+
+\begin_layout Standard
+Diseño de circuitos eléctricos, en donde es de relevante importancia dónde
+ se ubican ciertas partes o chips con el fin de minimizar la distancia entre
+ ellos, ya que las conexiones son de alto costo.
+\end_layout
+
+\begin_layout Section
+Cálculo del orden de eficiencia teórica del algoritmo 
+\end_layout
+
+\begin_layout Section
+Instrucciones sobre como compilar y ejecutar el código de la práctica
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Compilación:}
+\end_layout
+
+\end_inset
+
+ Ejecutar make en su terminal.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Ejecución:} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+1.
+ Crear un archivo de texto con el siguiente formato.
+ 
+\end_layout
+
+\begin_layout Itemize
+Numero de filas/columnas.
+ 
+\end_layout
+
+\begin_layout Itemize
+Matriz de distancias a Habitaciones.
+\end_layout
+
+\begin_layout Itemize
+Matriz de flujo de trabajo de Oficinistas.
+\end_layout
+
+\begin_layout Standard
+Formato similar al proporcionado en dat/matrices.dat
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+2.
+ Ejecutar el programa que se guardará por defecto en la carpeta bin del
+ proyecto ./bin/prueba nombre_archivo
+\end_layout
+
+\end_body
+\end_document
