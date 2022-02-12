@@ -1,5 +1,5 @@
 # Practicas_Algoritmica
-Repositorio de las prácticas de Algorítmica de 2ºDGIIM.
+Repositorio de las Prácticas de Algorítmica de 2ºDGIIM.
 
 Realizadas por:
 
